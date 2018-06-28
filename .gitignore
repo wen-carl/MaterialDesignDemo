@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/packages
+/MaterialDesign/Resources/Resource.Designer.cs

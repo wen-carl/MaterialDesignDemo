@@ -38,11 +38,12 @@ namespace MaterialDesign.Class.Adapters
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            if (Utils.ObjectUtility.CheckInherit(holder.GetType(), typeof(RecyclerViewHolder)))
+            if (holder is RecyclerViewHolder)
             {
                 RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder)holder;
                 Android.Views.Animations.Animation animation = AnimationUtils.LoadAnimation(context, Resource.Animation.anim_recycler_item_show);
                 recyclerViewHolder.mView.StartAnimation(animation);
+                recyclerViewHolder.Msg.Text = $"{position}";
 
                 AlphaAnimation aa1 = new AlphaAnimation(1.0f, 0.1f);
                 aa1.Duration = 400;
@@ -76,7 +77,6 @@ namespace MaterialDesign.Class.Adapters
                 recyclerViewHolder.rela_round.StartAnimation(aa);
 
                 recyclerViewHolder.mView.SetOnClickListener(new RecycleViewHolderClick(context, recyclerViewHolder, color));
-
             }
         }
 
@@ -123,7 +123,6 @@ namespace MaterialDesign.Class.Adapters
             mItems.RemoveAt(position);
             NotifyItemRemoved(position);
 
-
             Snackbar.Make(parentView, context.GetString(Resource.String.item_swipe_dismissed), Snackbar.LengthShort)
                     .SetAction(context.GetString(Resource.String.item_swipe_undo), new SnackbarOnClick(this, position, mItems)).Show();
         }
@@ -168,11 +167,13 @@ namespace MaterialDesign.Class.Adapters
         {
             public View mView;
             public RelativeLayout rela_round;
+            public TextView Msg;
 
             public RecyclerViewHolder(View itemView) : base(itemView)
             {
                 mView = itemView;
                 rela_round = itemView.FindViewById<RelativeLayout>(Resource.Id.rela_round);
+                Msg = itemView.FindViewById<TextView>(Resource.Id.tv_recycler_item_1);
             }
         }
 
